@@ -22,6 +22,7 @@ export const LogInForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(credentials),
       });
       const res = await response.json();
