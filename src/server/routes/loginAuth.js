@@ -23,7 +23,6 @@ router.post("/", async (req, res) => {
         acc[meta.name.toLowerCase()] = result.rows[0][index];
         return acc;
       }, {});
-      console.log(user.accountid);
       const token = jwt.sign(
         { userId: user.accountid, email: user.accountemail },
         process.env.JWT_SECRET,

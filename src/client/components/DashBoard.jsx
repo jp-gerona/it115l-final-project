@@ -105,7 +105,7 @@ const DashBoard = () => {
   // todo: In this component, add API POST method for logging out.
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+    <div className="flex w-full h-screen max-h-screen flex-col bg-muted/40 overflow-hidden">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         <div className="border-b p-2">
           <a href="https://www.facebook.com/CCISStudentCouncil" target="_blank">
@@ -186,7 +186,7 @@ const DashBoard = () => {
               </nav>
             </SheetContent>
           </Sheet>
-          <Breadcrumb className="hidden md:flex">
+          <Breadcrumb className="hidden sm:flex">
             <BreadcrumbList>
               {breadcrumbs.map((item, index) => (
                 <React.Fragment key={item.path}>
