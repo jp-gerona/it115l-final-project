@@ -4,6 +4,7 @@ import "dotenv/config";
 import { openConnection, closeConnection } from "./db.js";
 import LoginRoute from "./routes/loginAuth.js";
 import GetMemberListRoute from "./routes/getMemberList.js";
+import GetEventListRoute from "./routes/getEventList.js";
 import authToken from "./middleware/authToken.js";
 
 const app = express();
@@ -24,6 +25,8 @@ app.get("/hello", async (req, res) => {
 app.use("/loginAuth", LoginRoute);
 
 app.use("/getMemberList", GetMemberListRoute);
+
+app.use("/getEventList", GetEventListRoute);
 
 app.get("/protected", authToken, (req, res) => {
   res.json({ message: "Access to protected data", user: req.user });

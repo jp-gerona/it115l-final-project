@@ -39,13 +39,11 @@ import {
 
 import { ChevronDown, Search } from "lucide-react";
 
-// todo: make this dynamic according to oracledb data instead of test data
-
 const columns = [
   {
     accessorKey: "STUDENTNUMBER",
     Header: "Student Number",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: (props) => <Badge>{props.getValue()}</Badge>,
   },
   {
     accessorKey: "STUDENTNAME",
@@ -60,7 +58,7 @@ const columns = [
   {
     accessorKey: "STUDENTPROGRAM",
     Header: "Program",
-    cell: (props) => <Badge variant="outline">{props.getValue()}</Badge>,
+    cell: (props) => <p>{props.getValue()}</p>,
   },
 ];
 
@@ -74,11 +72,11 @@ const MembersTable = () => {
             "Content-Type": "application/json",
           },
         });
-  
+
         const studentData = await response.json();
-        setData(studentData)
+        setData(studentData);
       } catch (error) {
-        // setErrorMessage(error.message);
+        console.error("Login error:", error);
       }
     };
     GetStudents();
@@ -107,8 +105,6 @@ const MembersTable = () => {
   const startRow = currentPage * pageSize + 1;
   const endRow = Math.min((currentPage + 1) * pageSize, totalRows);
 
-  // todo: In this component, add API GET method for displaying members.
-
   return (
     <Card>
       <CardHeader>
@@ -120,14 +116,14 @@ const MembersTable = () => {
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Filter student by name..."
+              placeholder="Search student by name..."
               value={table.getColumn("STUDENTNAME")?.getFilterValue() ?? ""}
               onChange={(event) =>
                 table
                   .getColumn("STUDENTNAME")
                   ?.setFilterValue(event.target.value)
               }
-              className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[300px]"
+              className="w-full rounded-lg bg-background pl-8 md:w-[222px] lg:w-[300px]"
             />
           </div>
           <DropdownMenu>

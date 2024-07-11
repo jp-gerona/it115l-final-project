@@ -3,9 +3,9 @@ import OracleDB from "oracledb";
 // Function to establish connection to the database
 // Change user and password to your OracleDB credentials
 export const dbCredentials = {
-  user: "C##ALCANTARA",
-  password: "Cooler2304",
-  connectionString: "localhost/XE",
+  user: "CCIS",
+  password: "admin",
+  connectionString: "localhost/XEPDB1",
 };
 
 export async function openConnection() {

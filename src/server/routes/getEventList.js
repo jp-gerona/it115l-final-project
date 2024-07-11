@@ -7,22 +7,26 @@ router.use(express.json());
 
 router.get("/", async (req, res) => {
   let connection;
+  const selectedDay = "Day " + req.query.day;
+  console.log(selectedDay);
 
   try {
     connection = await openConnection();
 
-    const result = await connection.execute(
-      `SELECT STUDENTNUMBER, STUDENTFIRSTNAME || ' ' || STUDENTLASTNAME AS STUDENTNAME, STUDENTYEAR, STUDENTPROGRAM FROM ${dbCredentials.user}.STUDENT_INFO ORDER BY STUDENTNUMBER ASC`,
-      [],
-      {
-        outFormat: OracleDB.OUT_FORMAT_OBJECT,
-      }
-    );
+    const sqlQuery = `
+      SELECT EVENTID, EVENTNAME, EVENTTIMESTART, EVENTTIMEEND, EVENTVENUE 
+      FROM ${dbCredentials.user}.EVENT_LIST 
+      WHERE EVENTDAY = :selectedDay
+      ORDER BY EVENTID ASC`;
+
+    const result = await connection.execute(sqlQuery, [selectedDay], {
+      outFormat: OracleDB.OUT_FORMAT_OBJECT,
+    });
+
     res.json(result.rows);
   } catch (err) {
     console.error("Database error:", err);
     if (!res.headersSent) {
-      // Check if the headers are already sent
       res.status(500).json({ success: false, message: "Server error" });
     }
   } finally {
