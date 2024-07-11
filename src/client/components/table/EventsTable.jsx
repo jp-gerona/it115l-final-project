@@ -46,11 +46,11 @@ import {
 import { ChevronDown, Search } from "lucide-react";
 
 const tabs = [
-  { label: "Day 1", value: "1", date: "June 25, 2024" },
-  { label: "Day 2", value: "2", date: "June 26, 2024" },
-  { label: "Day 3", value: "3", date: "June 27, 2024" },
-  { label: "Day 4", value: "4", date: "June 28, 2024" },
-  { label: "Day 5", value: "5", date: "June 29, 2024" },
+  { label: "Day 1", ordinal: "first", value: "1", date: "June 25, 2024" },
+  { label: "Day 2", ordinal: "second", value: "2", date: "June 26, 2024" },
+  { label: "Day 3", ordinal: "third", value: "3", date: "June 27, 2024" },
+  { label: "Day 4", ordinal: "fourth", value: "4", date: "June 28, 2024" },
+  { label: "Day 5", ordinal: "fifth", value: "5", date: "June 29, 2024" },
 ];
 
 const columns = [
@@ -81,6 +81,7 @@ const EventsTable = () => {
   const [eventsData, setEventsData] = useState([]);
   const selectedTab = tabs.find((tab) => tab.value === selectedDay);
   const selectedDate = selectedTab ? selectedTab.date : "N/A";
+  const selectedOrdinal = selectedTab ? selectedTab.ordinal : "N/A";
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -151,7 +152,7 @@ const EventsTable = () => {
           <CardHeader>
             <CardTitle>{`Day ${selectedDay}: Events List`}</CardTitle>
             <CardDescription>
-              {`The official events of the first day (${selectedDate}) CCIS Week
+              {`The official events of the ${selectedOrdinal} day (${selectedDate}) CCIS Week
               2024`}
             </CardDescription>
           </CardHeader>
