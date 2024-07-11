@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -43,29 +43,48 @@ import { ChevronDown, Search } from "lucide-react";
 
 const columns = [
   {
-    accessorKey: "studentNumber",
+    accessorKey: "STUDENTNUMBER",
     Header: "Student Number",
     cell: (props) => <p>{props.getValue()}</p>,
   },
   {
-    accessorKey: "studentName",
+    accessorKey: "STUDENTNAME",
     Header: "Full Name",
     cell: (props) => <p>{props.getValue()}</p>,
   },
   {
-    accessorKey: "studentYear",
+    accessorKey: "STUDENTYEAR",
     Header: "Year Level",
     cell: (props) => <p>{props.getValue()}</p>,
   },
   {
-    accessorKey: "studentProgram",
+    accessorKey: "STUDENTPROGRAM",
     Header: "Program",
     cell: (props) => <Badge variant="outline">{props.getValue()}</Badge>,
   },
 ];
 
 const MembersTable = () => {
-  const [data, setData] = useState(testData);
+  useEffect(() => {
+    const GetStudents = async () => {
+      try {
+        const response = await fetch("/getMemberList", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        const studentData = await response.json();
+        setData(studentData)
+      } catch (error) {
+        // setErrorMessage(error.message);
+      }
+    };
+    GetStudents();
+  }, []);
+
+  const [data, setData] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
   const table = useReactTable({
@@ -102,10 +121,10 @@ const MembersTable = () => {
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Filter student by name..."
-              value={table.getColumn("studentName")?.getFilterValue() ?? ""}
+              value={table.getColumn("STUDENTNAME")?.getFilterValue() ?? ""}
               onChange={(event) =>
                 table
-                  .getColumn("studentName")
+                  .getColumn("STUDENTNAME")
                   ?.setFilterValue(event.target.value)
               }
               className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[300px]"
