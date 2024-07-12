@@ -1,7 +1,12 @@
 import React from "react";
+import PlayersTable from "./table/PlayersTable";
 
 const Players = () => {
-  return <div>Players</div>;
+  return (
+    <div>
+      <PlayersTable />
+    </div>
+  );
 };
 
 export default Players;
