@@ -110,9 +110,7 @@ const MembersTable = () => {
       <CardHeader>
         <CardTitle>Members List</CardTitle>
         <CardDescription>The official roster of CCIS Week 2024</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex items-center py-4">
+        <div className="flex flex-wrap items-center py-4 gap-2">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
@@ -128,7 +126,7 @@ const MembersTable = () => {
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto hidden sm:flex">
+              <Button variant="outline" className="flex ml:0 sm:ml-auto">
                 Columns <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -153,6 +151,8 @@ const MembersTable = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+      </CardHeader>
+      <CardContent className="h-[45vh] sm:h-[60vh] max-h-full w-full overflow-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -203,6 +203,8 @@ const MembersTable = () => {
             )}
           </TableBody>
         </Table>
+      </CardContent>
+      <CardFooter className="block">
         <div className="flex items-center  space-x-2 py-4 sm:justify-end">
           <div className="flex-1 text-sm text-muted-foreground hidden sm:block">
             Showing <strong>{startRow}</strong> to <strong>{endRow}</strong> of{" "}
@@ -227,7 +229,7 @@ const MembersTable = () => {
             </Button>
           </div>
         </div>
-      </CardContent>
+      </CardFooter>
     </Card>
   );
 };

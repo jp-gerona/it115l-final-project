@@ -8,7 +8,6 @@ router.use(express.json());
 router.get("/", async (req, res) => {
   let connection;
   const selectedDay = "Day " + req.query.day;
-  console.log(selectedDay);
 
   try {
     connection = await openConnection();

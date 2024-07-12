@@ -6,7 +6,6 @@ import {
   useReactTable,
   flexRender,
 } from "@tanstack/react-table";
-import testData from "../../../server/testData";
 
 import { Badge } from "@/client/components/ui/badge";
 import { Input } from "@/client/components/ui/input";
@@ -152,11 +151,8 @@ const EventsTable = () => {
           <CardHeader>
             <CardTitle>{`Day ${selectedDay}: Events List`}</CardTitle>
             <CardDescription>
-              {`The official events of the ${selectedOrdinal} day (${selectedDate}) CCIS Week
-              2024`}
+              {`The official CCIS Week 2024 events of the ${selectedOrdinal} day. (${selectedDate})`}
             </CardDescription>
-          </CardHeader>
-          <CardContent>
             <div className="flex items-center py-4">
               <div className="relative">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -198,6 +194,8 @@ const EventsTable = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+          </CardHeader>
+          <CardContent className="h-[35vh] sm:h-[55vh] max-h-full w-full overflow-auto">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -248,12 +246,14 @@ const EventsTable = () => {
                 )}
               </TableBody>
             </Table>
-            <div className="flex items-center  space-x-2 py-4 sm:justify-end">
+          </CardContent>
+          <CardFooter className="block">
+            <div className="flex items-center space-x-2 py-4 sm:justify-end">
               <div className="flex-1 text-sm text-muted-foreground hidden sm:block">
                 Showing <strong>{startRow}</strong> to <strong>{endRow}</strong>{" "}
                 of <strong>{totalRows}</strong> event(s).
               </div>
-              <div className="space-x-2">
+              <div className="flex space-x-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -272,7 +272,7 @@ const EventsTable = () => {
                 </Button>
               </div>
             </div>
-          </CardContent>
+          </CardFooter>
         </Card>
       </TabsContent>
     </Tabs>

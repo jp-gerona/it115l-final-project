@@ -39,43 +39,42 @@ import {
   House,
   CalendarDays,
   CalendarCheck,
-  ContactRound,
+  User,
   Joystick,
   PanelLeft,
   LogOut,
 } from "lucide-react";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 
-const DashBoard = () => {
-  // Navigation items dynamically generated using array
-  const navItems = [
-    { icon: House, label: "Home", ariaLabel: "Home", path: "/dashboard" },
-    {
-      icon: CalendarDays,
-      label: "Events",
-      ariaLabel: "Events",
-      path: "/dashboard/events",
-    },
-    {
-      icon: CalendarCheck,
-      label: "Attendance",
-      ariaLabel: "Attendance",
-      path: "/dashboard/attendance",
-    },
-    {
-      icon: ContactRound,
-      label: "Members",
-      ariaLabel: "Members",
-      path: "/dashboard/members",
-    },
-    {
-      icon: Joystick,
-      label: "Players",
-      ariaLabel: "Players",
-      path: "/dashboard/players",
-    },
-  ];
+const navItems = [
+  { icon: House, label: "Home", ariaLabel: "Home", path: "/dashboard" },
+  {
+    icon: CalendarCheck,
+    label: "Attendance",
+    ariaLabel: "Attendance",
+    path: "/dashboard/attendance",
+  },
+  {
+    icon: CalendarDays,
+    label: "Events",
+    ariaLabel: "Events",
+    path: "/dashboard/events",
+  },
+  {
+    icon: User,
+    label: "Members",
+    ariaLabel: "Members",
+    path: "/dashboard/members",
+  },
+  {
+    icon: Joystick,
+    label: "Players",
+    ariaLabel: "Players",
+    path: "/dashboard/players",
+  },
+];
 
+const DashBoard = () => {
   // React Router hooks
   const navigate = useNavigate();
   const location = useLocation();
@@ -141,7 +140,7 @@ const DashBoard = () => {
           </TooltipProvider>
         </nav>
       </aside>
-      <div className="flex flex-col  sm:pl-14 min-h-screen">
+      <div className="flex flex-col sm:pl-14 min-h-screen">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:py-2 sm:static sm:h-auto sm:px-6">
           <Sheet>
             <SheetTrigger asChild>
@@ -245,7 +244,7 @@ const DashBoard = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 sm:pt-4 overflow-y-auto">
+        <main className="gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 sm:pt-4">
           <Outlet />
         </main>
       </div>
