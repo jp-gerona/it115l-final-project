@@ -7,8 +7,9 @@ const cookieJwtAuth = (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    console.error("JWT verification error:", error);
+    res.status(401).json({ success: false, message: "Unauthorized" });
     res.clearCookie("token");
-    return res.redirect("/");
   }
 };
 

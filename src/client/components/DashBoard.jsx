@@ -45,6 +45,8 @@ import {
   LogOut,
 } from "lucide-react";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { useEffect } from "react";
+import axios from "axios";
 
 const navItems = [
   { icon: House, label: "Home", ariaLabel: "Home", path: "/dashboard" },
@@ -78,6 +80,39 @@ const DashBoard = () => {
   // React Router hooks
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+
+    const checkAuthentication = async () => {
+      try {
+        // Example: Make a GET request to a protected endpoint
+        const response = await axios.get("/cookieAuth"); // Replace with your endpoint
+  
+        // If user is authenticated, handle it here (optional)
+        console.log("User authenticated:", response.data);
+      } catch (error) {
+        // If there's an error or user is not authenticated, handle it here
+        console.error("Authentication error:", error.response);
+        // For example, redirect to login page if unauthorized
+        navigate("/");
+      }
+    };
+
+    checkAuthentication();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('/logout');
+      await axios.post('/logout'); // Call the backend logout endpoint
+      // Optionally clear local storage or perform additional cleanup
+      console.log('Logout successful:', response.data);
+      navigate('/'); // Redirect to login page after logout
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Handle error if necessary
+    }
+  };
 
   // Function to capitalize the first letter of each word
   const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -238,7 +273,7 @@ const DashBoard = () => {
               </a>
               <DropdownMenuSeparator />
               {/* //todo: POST method for logging out.  */}
-              <DropdownMenuItem className="text-destructive focus:text-destructive font-semibold">
+              <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive font-semibold">
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>

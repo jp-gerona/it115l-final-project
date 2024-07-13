@@ -6,9 +6,14 @@ import LoginRoute from "./routes/loginAuth.js";
 import GetMemberListRoute from "./routes/getMemberList.js";
 import GetEventListRoute from "./routes/getEventList.js";
 import authToken from "./middleware/authToken.js";
+import cookieAuth from "./middleware/cookieJWTAuth.js";
+import cookieParser from "cookie-parser";
+import logout from "./routes/logout.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(cookieParser());
 
 app.get("/hello", async (req, res) => {
   let connection;
@@ -31,6 +36,13 @@ app.use("/getEventList", GetEventListRoute);
 app.get("/protected", authToken, (req, res) => {
   res.json({ message: "Access to protected data", user: req.user });
 });
+
+app.get("/cookieAuth", cookieAuth, (req, res) => {
+  // Access user information from req.user
+  res.json({ success: true, user: req.user });
+});
+
+app.post("/logout", logout);
 
 ViteExpress.listen(app, port, () =>
   console.log(`Server is listening on port ${port}...`)
