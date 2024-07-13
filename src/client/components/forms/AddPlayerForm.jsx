@@ -35,16 +35,15 @@ const fields = [
 ];
 
 const AddPlayerForm = () => {
-  const [playerData, setPlayerData] = useState({ eventID: "", studentNumber: "", houseName: "" });
+  const [playerData, setPlayerData] = useState({ EVENTID: "", STUDENTNUMBER: "", HOUSENAME: "" });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPlayerData({ ...playerData, [name]: value });
+    const { id, value } = e.target;
+    setPlayerData({ ...playerData, [id]: value });
   };
 
   const addPlayer = async () => {
-    // event.preventDefault();
-    const { EVENTID, STUDENTNUMBER, HOUSENAME } = playerData;
+    console.log(playerData)
 
     try {
       const response = await fetch("/addPlayer", {
@@ -52,7 +51,7 @@ const AddPlayerForm = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ EVENTID, STUDENTNUMBER, HOUSENAME })
+        body: JSON.stringify(playerData)
       });
   
       if (!response.ok) {

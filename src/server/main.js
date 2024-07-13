@@ -37,7 +37,7 @@ app.use("/getEventList", GetEventListRoute);
 
 app.use("/getPlayerList", GetPlayerListRoute);
 
-app.post("/addPlayer", addPlayerRoute);
+app.use("/addPlayer", addPlayerRoute);
 
 app.get("/protected", authToken, (req, res) => {
   res.json({ message: "Access to protected data", user: req.user });

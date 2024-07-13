@@ -6,14 +6,15 @@ const router = express.Router();
 router.use(express.json());
 
 router.post("/", async (req, res) => {
-  const { eventID, studentNumber, houseName } = req.body;
+  const { EVENTID, STUDENTNUMBER, HOUSENAME } = req.body;
   let connection;
 
   try {
     connection = await openConnection();
     const result = await connection.execute(
-      `INSERT INTO C##ALCANTARA.EVENT_PLAYERS (EVENTID, STUDENTNUMBER, HOUSENAME) VALUES (:eventID, :studentNumber, :houseName)`,
-      [eventID, studentNumber, houseName]
+      `INSERT INTO C##ALCANTARA.EVENT_PLAYERS (EVENTID, STUDENTNUMBER, HOUSENAME) VALUES (:EVENTID, :STUDENTNUMBER, :HOUSENAME)`,
+      [EVENTID, STUDENTNUMBER, HOUSENAME],
+      { autoCommit: true }
     );
     console.log(result);
     res.json(result.rows);
