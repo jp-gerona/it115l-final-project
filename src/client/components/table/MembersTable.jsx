@@ -76,7 +76,7 @@ const MembersTable = () => {
         const studentData = await response.json();
         setData(studentData);
       } catch (error) {
-        console.error("Login error:", error);
+        console.error("error:", error);
       }
     };
     GetStudents();
@@ -152,7 +152,7 @@ const MembersTable = () => {
           </DropdownMenu>
         </div>
       </CardHeader>
-      <CardContent className="h-[45vh] sm:h-[60vh] max-h-full w-full overflow-auto">
+      <CardContent className="h-[45vh] sm:h-[50vh] max-h-full w-full overflow-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

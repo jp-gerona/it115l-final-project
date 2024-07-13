@@ -5,6 +5,8 @@ import { openConnection, closeConnection } from "./db.js";
 import LoginRoute from "./routes/loginAuth.js";
 import GetMemberListRoute from "./routes/getMemberList.js";
 import GetEventListRoute from "./routes/getEventList.js";
+import GetPlayerListRoute from "./routes/getPlayerList.js";
+import addPlayerRoute from "./routes/addPlayer.js";
 import authToken from "./middleware/authToken.js";
 import cookieAuth from "./middleware/cookieJWTAuth.js";
 import cookieParser from "cookie-parser";
@@ -32,6 +34,10 @@ app.use("/loginAuth", LoginRoute);
 app.use("/getMemberList", GetMemberListRoute);
 
 app.use("/getEventList", GetEventListRoute);
+
+app.use("/getPlayerList", GetPlayerListRoute);
+
+app.post("/addPlayer", addPlayerRoute);
 
 app.get("/protected", authToken, (req, res) => {
   res.json({ message: "Access to protected data", user: req.user });

@@ -56,13 +56,18 @@ const tabs = [
 // todo: replace columns to player list table
 const columns = [
   {
-    accessorKey: "STUDENTNUMBER",
-    Header: "Student Number",
+    accessorKey: "EVENTNAME",
+    Header: "Event Name",
     cell: (props) => <Badge>{props.getValue()}</Badge>,
   },
   {
-    accessorKey: "STUDENTNAME",
+    accessorKey: "PLAYERNAME",
     Header: "Player Name",
+    cell: (props) => <p>{props.getValue()}</p>,
+  },
+  {
+    accessorKey: "HOUSENAME",
+    Header: "House",
     cell: (props) => <p>{props.getValue()}</p>,
   },
   {
@@ -75,9 +80,15 @@ const columns = [
 const PlayersTable = () => {
   const [selectedDay, setSelectedDay] = useState("1"); // Defaults to the first tab, which is Day 1
   const [eventsData, setEventsData] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState('');
   const selectedTab = tabs.find((tab) => tab.value === selectedDay);
   const selectedDate = selectedTab ? selectedTab.date : "N/A";
   const selectedOrdinal = selectedTab ? selectedTab.ordinal : "N/A";
+
+  const handleEventSelect = (event) => {
+    setSelectedEvent(event);
+    // You can perform additional actions based on the selected event here
+  };
 
   // todo: fetch player list data instead
   // todo: user shall select day. at first, no table should be displayed as the user has to select eventName first before showing data of the players
@@ -94,6 +105,7 @@ const PlayersTable = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        console.log(data)
         setEventsData(data); // Update the state with the fetched data
       } catch (error) {
         console.error("Fetch error:", error);
@@ -103,10 +115,24 @@ const PlayersTable = () => {
     fetchEvents();
   }, [selectedDay]); // Dependency array includes selectedDay to trigger effect on change
 
-  // todo: fetch player list data instead
   useEffect(() => {
-    setData(eventsData); // Update the data state with the fetched events data
-  }, [eventsData]);
+    const GetPlayers = async () => {
+      try {
+        const response = await fetch(`/getPlayerList?eventID=${selectedEvent}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const playerList = await response.json();
+        setData(playerList);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    GetPlayers();
+  }, [selectedEvent]);
 
   const [data, setData] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -156,7 +182,12 @@ const PlayersTable = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuCheckboxItem>Event1</DropdownMenuCheckboxItem>
+              {eventsData.map((event) => (
+                <DropdownMenuCheckboxItem key={event.EVENTID} onClick={() => handleEventSelect(event.EVENTID)}>
+                  {event.EVENTNAME}
+                </DropdownMenuCheckboxItem>
+              ))}
+              {/* <DropdownMenuCheckboxItem onClick={() => handleEventSelect('2')}>Event1</DropdownMenuCheckboxItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
           <AddPlayerForm />
@@ -174,10 +205,10 @@ const PlayersTable = () => {
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search player by name..."
-                  value={table.getColumn("EVENTNAME")?.getFilterValue() ?? ""}
+                  value={table.getColumn("PLAYERNAME")?.getFilterValue() ?? ""}
                   onChange={(event) =>
                     table
-                      .getColumn("EVENTNAME")
+                      .getColumn("PLAYERNAME")
                       ?.setFilterValue(event.target.value)
                   }
                   className="w-full rounded-lg bg-background pl-8 md:w-[222px] lg:w-[300px]"

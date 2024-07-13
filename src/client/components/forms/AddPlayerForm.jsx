@@ -13,17 +13,57 @@ import {
 import { Input } from "@/client/components/ui/input";
 import { Label } from "@/client/components/ui/label";
 import { PlusCircle } from "lucide-react";
+import { useState } from "react";
 
 // todo: not sure if all fields should be required to fill out
 const fields = [
+  {
+    id: "EVENTID",
+    label: "Event ID",
+    placeHolder: "1",
+  },
   {
     id: "STUDENTNUMBER",
     label: "Student No.",
     placeHolder: "2018123456",
   },
+  {
+    id: "HOUSENAME",
+    label: "House Name",
+    placeHolder: "Cybernetics",
+  },
 ];
 
 const AddPlayerForm = () => {
+  const [playerData, setPlayerData] = useState({ eventID: "", studentNumber: "", houseName: "" });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPlayerData({ ...playerData, [name]: value });
+  };
+
+  const addPlayer = async () => {
+    // event.preventDefault();
+    const { EVENTID, STUDENTNUMBER, HOUSENAME } = playerData;
+
+    try {
+      const response = await fetch("/addPlayer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ EVENTID, STUDENTNUMBER, HOUSENAME })
+      });
+  
+      if (!response.ok) {
+        const errorResponse = await response.text();
+        throw new Error(errorResponse); // Parse error message from response
+      }
+    } catch (error) {
+      console.error("Error during add request:", error); // Log detailed error
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -51,12 +91,13 @@ const AddPlayerForm = () => {
                 id={field.id}
                 placeHolder={field.placeHolder}
                 className="col-span-3"
+                onChange={handleChange}
               />
             </div>
           ))}
         </div>
         <DialogFooter>
-          <Button type="submit">Add Player</Button>
+          <Button onClick = {addPlayer} type="submit">Add Player</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
