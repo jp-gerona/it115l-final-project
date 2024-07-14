@@ -253,8 +253,11 @@ const DashBoard = () => {
                 className="overflow-hidden rounded-full"
               >
                 <Avatar>
-                  <AvatarImage src="" alt="@shadcn" />
-                  <AvatarFallback>LT</AvatarFallback>
+                  <AvatarImage
+                    src="https://scontent-mnl1-2.xx.fbcdn.net/v/t39.30808-6/441925813_441655938594840_4107996967858372694_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=qSnEdKcLbrQQ7kNvgG339QS&_nc_ht=scontent-mnl1-2.xx&oh=00_AYDOd0rX-_fPlNh5cdvtu43y20zrUOX6OM9vg8ZAna4Y3g&oe=66998CB7"
+                    alt="@ccis2024"
+                  />
+                  <AvatarFallback>CC</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
