@@ -95,14 +95,6 @@ const AttendanceTable = () => {
   const selectedDate = selectedTab ? selectedTab.date : "N/A";
   const selectedOrdinal = selectedTab ? selectedTab.ordinal : "N/A";
 
-  const handleEventSelectID = (event) => {
-    setSelectedEventID(event);
-  };
-
-  const handleEventSelectName = (event) => {
-    setSelectedEventName(event);
-  };
-
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -178,7 +170,11 @@ const AttendanceTable = () => {
             <TabsTrigger
               key={tab.value}
               value={tab.value}
-              onClick={() => setSelectedDay(tab.value)}
+              onClick={() => {
+                setSelectedDay(tab.value);
+                setSelectedEventID("");
+                setSelectedEventName("Event");
+              }}
             >
               {tab.label}
             </TabsTrigger>
@@ -199,14 +195,13 @@ const AttendanceTable = () => {
                 <DropdownMenuItem
                   key={event.EVENTID}
                   onClick={() => {
-                    handleEventSelectID(event.EVENTID);
-                    handleEventSelectName(event.EVENTNAME);
+                    setSelectedEventID(event.EVENTID);
+                    setSelectedEventName(event.EVENTNAME);
                   }}
                 >
                   {event.EVENTNAME}
                 </DropdownMenuItem>
               ))}
-              {/* <DropdownMenuCheckboxItem onClick={() => handleEventSelect('2')}>Event1</DropdownMenuCheckboxItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
           <AddAttendanceForm />
