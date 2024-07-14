@@ -25,9 +25,30 @@ import { Label } from "@/client/components/ui/label";
 
 import { MoreHorizontal } from "lucide-react";
 
-const PlayerActionsForm = () => {
+const PlayerActionsForm = ({ studentNumber }) => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const handleDelete = async (studentNumber) => {
+    console.log(studentNumber)
+    try {
+      const response = await fetch("/deletePlayer", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ studentNumber })
+      });
+  
+      if (!response.ok) {
+        const errorResponse = await response.text();
+        throw new Error(errorResponse); // Parse error message from response
+      }
+    } catch (error) {
+      console.error("Error during delete request:", error); // Log detailed error
+      setErrorMessage(error.message);
+    }
+  };
 
   return (
     <>
@@ -92,7 +113,7 @@ const PlayerActionsForm = () => {
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button className="hover:bg-destructive">Delete</Button>
+            <Button onClick={() => handleDelete(studentNumber)} className="hover:bg-destructive">Delete</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

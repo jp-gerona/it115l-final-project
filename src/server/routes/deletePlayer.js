@@ -4,19 +4,18 @@ import { dbCredentials, openConnection, closeConnection } from "../db.js";
 const router = express.Router();
 router.use(express.json());
 
-router.post("/", async (req, res) => {
-  const { EVENTID, STUDENTNUMBER, HOUSENAME } = req.body;
+router.delete("/", async (req, res) => {
+  const { studentNumber } = req.body;
   let connection;
 
   try {
     connection = await openConnection();
     const result = await connection.execute(
-      `INSERT INTO ${dbCredentials.user}.EVENT_PLAYERS (EVENTID, STUDENTNUMBER, HOUSENAME) VALUES (:EVENTID, :STUDENTNUMBER, :HOUSENAME)`,
-      [EVENTID, STUDENTNUMBER, HOUSENAME],
+      `DELETE FROM ${dbCredentials.user}.EVENT_PLAYERS WHERE STUDENTNUMBER = :studentNumber`,
+      [studentNumber],
       { autoCommit: true }
     );
-    console.log(result);
-    res.json(result.rows);
+    console.log("Delete result:", result);
   } catch (err) {
     console.error("Database error:", err);
     if (!res.headersSent) {

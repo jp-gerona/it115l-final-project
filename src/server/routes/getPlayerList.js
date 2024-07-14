@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   try {
     connection = await openConnection();
     const result = await connection.execute(
-      `SELECT EVENTNAME, STUDENTFIRSTNAME || ' ' || STUDENTLASTNAME AS PLAYERNAME, ep.HOUSENAME, STUDENTYEAR
+      `SELECT ep.STUDENTNUMBER, EVENTNAME, STUDENTFIRSTNAME || ' ' || STUDENTLASTNAME AS PLAYERNAME, ep.HOUSENAME, STUDENTYEAR
        FROM ${dbCredentials.user}.EVENT_PLAYERS ep
        INNER JOIN ${dbCredentials.user}.EVENT_LIST el ON ep.EVENTID = el.EVENTID
        INNER JOIN ${dbCredentials.user}.STUDENT_INFO s ON ep.STUDENTNUMBER = s.STUDENTNUMBER
