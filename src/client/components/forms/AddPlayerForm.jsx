@@ -15,7 +15,6 @@ import { Input } from "@/client/components/ui/input";
 import { Label } from "@/client/components/ui/label";
 import { PlusCircle } from "lucide-react";
 
-// todo: not sure if all fields should be required to fill out
 const fields = [
   {
     id: "EVENTID",
@@ -41,12 +40,28 @@ const AddPlayerForm = () => {
     HOUSENAME: "",
   });
 
+  const [errors, setErrors] = useState({});
+
+  const validate = (data) => {
+    const newErrors = {};
+    if (!data.EVENTID || isNaN(data.EVENTID))
+      newErrors.EVENTID = "Event ID must be a number.";
+    if (!data.STUDENTNUMBER || !/^\d{10}$/.test(data.STUDENTNUMBER))
+      newErrors.STUDENTNUMBER = "Student No. must be 10 digits.";
+    if (!data.HOUSENAME) newErrors.HOUSENAME = "House Name is required.";
+    return newErrors;
+  };
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setPlayerData({ ...playerData, [id]: value });
   };
 
   const addPlayer = async () => {
+    const formErrors = validate(playerData);
+    setErrors(formErrors);
+
+    if (Object.keys(formErrors).length > 0) return;
     console.log(playerData);
 
     try {
@@ -90,12 +105,18 @@ const AddPlayerForm = () => {
               <Label htmlFor={field.id} className="text-right">
                 {field.label}
               </Label>
-              <Input
-                id={field.id}
-                placeholder={field.placeHolder}
-                className="col-span-3"
-                onChange={handleChange}
-              />
+              <div className="col-span-3">
+                <Input
+                  id={field.id}
+                  placeholder={field.placeHolder}
+                  onChange={handleChange}
+                />
+                {errors[field.id] && (
+                  <p className="text-destructive text-xs col-span-4">
+                    {errors[field.id]}
+                  </p>
+                )}
+              </div>
             </div>
           ))}
         </div>
