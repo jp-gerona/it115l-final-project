@@ -1,9 +1,8 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 import { Users } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -17,17 +16,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/client/components/ui/chart";
-const chartData = [
-  { houseName: "innovators", members: 275, fill: "var(--color-innovators)" },
-  { houseName: "sentinels", members: 200, fill: "var(--color-sentinels)" },
-  { houseName: "cybernetics", members: 287, fill: "var(--color-cybernetics)" },
-  { houseName: "chronos", members: 173, fill: "var(--color-chronos)" },
-];
 
+// Define your colors for each house
 const chartConfig = {
-  members: {
-    label: "members",
-  },
   innovators: {
     label: "Innovators",
     color: "hsl(var(--chart-1))",
@@ -47,8 +38,40 @@ const chartConfig = {
 };
 
 const PopulationChart = () => {
-  const totalmembers = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.members, 0);
+  const [chartData, setChartData] = React.useState([]);
+  const [totalMembers, setTotalMembers] = React.useState(0);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data from the correct API endpoint
+        const response = await fetch("/countMembers", { // Update the URL here if needed
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        const formattedData = data.map((item) => ({
+          houseName: item.houseName.toLowerCase(),
+          members: item.members,
+        }));
+        setChartData(formattedData);
+        console.log(formattedData); 
+        // Calculate total members
+        const total = data.reduce((acc, curr) => acc + curr.members, 0);
+        setTotalMembers(total);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -73,6 +96,7 @@ const PopulationChart = () => {
               nameKey="houseName"
               innerRadius={60}
               strokeWidth={5}
+              // Apply colors to each segment
             >
               <Label
                 content={({ viewBox }) => {
@@ -89,7 +113,7 @@ const PopulationChart = () => {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalmembers.toLocaleString()}
+                          {totalMembers.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -109,7 +133,7 @@ const PopulationChart = () => {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Showing total population of all 4 houses.
+          Showing total population of all houses.
           <Users className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
