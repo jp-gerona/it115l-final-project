@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { Medal } from "lucide-react";
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
 
@@ -16,12 +17,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/client/components/ui/chart";
-const chartData = [
-  { houseName: "innovators", points: 275, fill: "var(--color-innovators)" },
-  { houseName: "sentinels", points: 200, fill: "var(--color-sentinels)" },
-  { houseName: "cybernetics", points: 287, fill: "var(--color-cybernetics)" },
-  { houseName: "chronos", points: 173, fill: "var(--color-chronos)" },
-];
 
 const chartConfig = {
   points: {
@@ -46,6 +41,35 @@ const chartConfig = {
 };
 
 const PointsChart = () => {
+  const [chartData, setChartData] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchChartData = async () => {
+      try {
+        const response = await fetch("/getHousePoints", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+        const formattedData = data.map((item) => ({
+          houseName: item.HOUSENAME.toLowerCase(),
+          points: item.HOUSEPOINTS,
+          fill: `var(--color-${item.HOUSENAME.toLowerCase()})`,
+        }));
+        console.log(formattedData);
+        setChartData(formattedData);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchChartData();
+  }, []);
+
   return (
     <Card className="flex flex-col h-full">
       <CardHeader>

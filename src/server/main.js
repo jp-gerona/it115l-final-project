@@ -13,6 +13,7 @@ import addPlayerRoute from "./routes/addPlayer.js";
 import GetPlayerListRoute from "./routes/getPlayerList.js";
 import editPlayerRoute from "./routes/editPlayer.js";
 import deletePlayerRoute from "./routes/deletePlayer.js";
+import getHousePoints from "./routes/getHousePoints.js";
 import authToken from "./middleware/authToken.js";
 import cookieAuth from "./middleware/cookieJWTAuth.js";
 import cookieParser from "cookie-parser";
@@ -54,6 +55,9 @@ app.use("/addPlayer", addPlayerRoute);
 app.use("/getPlayerList", GetPlayerListRoute);
 app.use("/deletePlayer", deletePlayerRoute);
 app.use("/editPlayer", editPlayerRoute);
+
+// Charts
+app.use("/getHousePoints", getHousePoints);
 
 // Authorization
 app.get("/protected", authToken, (req, res) => {
