@@ -6,7 +6,6 @@ import {
   useReactTable,
   flexRender,
 } from "@tanstack/react-table";
-import testData from "../../../server/testData";
 
 import { Badge } from "@/client/components/ui/badge";
 import { Input } from "@/client/components/ui/input";
@@ -31,9 +30,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/client/components/ui/dropdown-menu";
 

@@ -195,7 +195,7 @@ const EventsTable = () => {
               </DropdownMenu>
             </div>
           </CardHeader>
-          <CardContent className="h-[35vh] sm:h-[55vh] max-h-full w-full overflow-auto">
+          <CardContent className="h-[35vh] sm:h-[43.3vh] max-h-full w-full overflow-auto">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (

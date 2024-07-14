@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import SelectEvent from "../SelectEvent";
 import ActionsForm from "../forms/AttendanceActionsForm";
 
 import {
@@ -34,8 +33,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/client/components/ui/dropdown-menu";
 import {
@@ -56,7 +53,6 @@ const tabs = [
   { label: "Day 5", ordinal: "fifth", value: "5", date: "June 29, 2024" },
 ];
 
-// todo: replace columns to player list table
 const columns = [
   {
     accessorKey: "EVENTNAME",
@@ -87,7 +83,7 @@ const columns = [
 ];
 
 const AttendanceTable = () => {
-  const [selectedDay, setSelectedDay] = useState("1"); // Defaults to the first tab, which is Day 1
+  const [selectedDay, setSelectedDay] = useState("1");
   const [eventsData, setEventsData] = useState([]);
   const [selectedEventID, setSelectedEventID] = useState("");
   const [selectedEventName, setSelectedEventName] = useState("Event");
@@ -116,7 +112,7 @@ const AttendanceTable = () => {
     };
 
     fetchEvents();
-  }, [selectedDay]); // Dependency array includes selectedDay to trigger effect on change
+  }, [selectedDay]);
 
   useEffect(() => {
     const GetAttendance = async () => {
@@ -256,7 +252,7 @@ const AttendanceTable = () => {
               </DropdownMenu>
             </div>
           </CardHeader>
-          <CardContent className="h-[35vh] sm:h-[55vh] max-h-full w-full overflow-auto">
+          <CardContent className="h-[35vh] sm:h-[43.3vh] max-h-full w-full overflow-auto">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
