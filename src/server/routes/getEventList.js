@@ -13,10 +13,11 @@ router.get("/", async (req, res) => {
     connection = await openConnection();
 
     const sqlQuery = `
-      SELECT EVENTID, EVENTNAME, EVENTTIMESTART, EVENTTIMEEND, EVENTVENUE 
-      FROM ${dbCredentials.user}.EVENT_LIST 
+      SELECT el.EVENTID, EVENTNAME, EVENTTIMESTART, EVENTTIMEEND, EVENTVENUE 
+      FROM ${dbCredentials.user}.EVENT_LIST el
+      INNER JOIN ${dbCredentials.user}.EVENT_SCHEDULE es ON el.EVENTID = es.EVENTID
       WHERE EVENTDAY = :selectedDay
-      ORDER BY EVENTID ASC`;
+      ORDER BY el.EVENTID ASC`;
 
     const result = await connection.execute(sqlQuery, [selectedDay], {
       outFormat: OracleDB.OUT_FORMAT_OBJECT,
