@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import SelectEvent from "../SelectEvent";
 import AddPlayerForm from "../forms/AddPlayerForm";
+import PlayerActionsForm from "../forms/PlayerActionsForm";
+
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -75,15 +78,24 @@ const columns = [
     Header: "Year Level",
     cell: (props) => <p>{props.getValue()}</p>,
   },
+  {
+    accessorKey: "STUDENTNUMBER",
+    id: "ACTIONS",
+    Header: "Actions",
+    cell: (props) => <PlayerActionsForm studentNumber={props.getValue()} />,
+    // <PlayerActionsForm />,  
+  },
 ];
 
 const PlayersTable = () => {
   const [selectedDay, setSelectedDay] = useState("1"); // Defaults to the first tab, which is Day 1
   const [eventsData, setEventsData] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState('');
+  const [selectedEvent, setSelectedEvent] = useState("");
   const selectedTab = tabs.find((tab) => tab.value === selectedDay);
   const selectedDate = selectedTab ? selectedTab.date : "N/A";
   const selectedOrdinal = selectedTab ? selectedTab.ordinal : "N/A";
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
   const handleEventSelect = (event) => {
     setSelectedEvent(event);
@@ -105,7 +117,7 @@ const PlayersTable = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         setEventsData(data); // Update the state with the fetched data
       } catch (error) {
         console.error("Fetch error:", error);
@@ -118,12 +130,15 @@ const PlayersTable = () => {
   useEffect(() => {
     const GetPlayers = async () => {
       try {
-        const response = await fetch(`/getPlayerList?eventID=${selectedEvent}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `/getPlayerList?eventID=${selectedEvent}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         const playerList = await response.json();
         setData(playerList);
@@ -156,7 +171,6 @@ const PlayersTable = () => {
   // Calculate the starting and ending row numbers for the current page
   const startRow = currentPage * pageSize + 1;
   const endRow = Math.min((currentPage + 1) * pageSize, totalRows);
-
   return (
     <Tabs defaultValue="1">
       <div className="flex items-center justify-center sm:justify-start">
@@ -183,9 +197,12 @@ const PlayersTable = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {eventsData.map((event) => (
-                <DropdownMenuCheckboxItem key={event.EVENTID} onClick={() => handleEventSelect(event.EVENTID)}>
+                <DropdownMenuItem
+                  key={event.EVENTID}
+                  onClick={() => handleEventSelect(event.EVENTID)}
+                >
                   {event.EVENTNAME}
-                </DropdownMenuCheckboxItem>
+                </DropdownMenuItem>
               ))}
               {/* <DropdownMenuCheckboxItem onClick={() => handleEventSelect('2')}>Event1</DropdownMenuCheckboxItem> */}
             </DropdownMenuContent>
