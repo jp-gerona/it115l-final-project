@@ -11,6 +11,7 @@ import GetMemberListRoute from "./routes/getMemberList.js";
 import GetEventListRoute from "./routes/getEventList.js";
 import addPlayerRoute from "./routes/addPlayer.js";
 import GetPlayerListRoute from "./routes/getPlayerList.js";
+import countMembersRoute from "./routes/countMembers.js"
 import editPlayerRoute from "./routes/editPlayer.js";
 import deletePlayerRoute from "./routes/deletePlayer.js";
 import getHousePoints from "./routes/getHousePoints.js";
@@ -43,7 +44,7 @@ app.use("/addAttendance", AddAttendanceRoute);
 app.use("/getAttendance", GetAttendanceRoute);
 app.use("/editAttendance", EditAttendanceRoute);
 app.use("/deleteAttendance", DeleteAttendanceRoute);
-
+app.use("/countMembers", countMembersRoute);
 // Members
 app.use("/getMemberList", GetMemberListRoute);
 
