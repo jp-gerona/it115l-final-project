@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
       [EVENTID, STUDENTNUMBER, HOUSENAME],
       { autoCommit: true }
     );
-    console.log(result);
+    console.log("Add result:", result);
     res.json(result.rows);
   } catch (err) {
     console.error("Database error:", err);

@@ -47,8 +47,6 @@ const AddPlayerForm = () => {
   };
 
   const addPlayer = async () => {
-    console.log(playerData);
-
     try {
       const response = await fetch("/addPlayer", {
         method: "POST",

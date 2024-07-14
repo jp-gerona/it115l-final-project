@@ -29,6 +29,37 @@ const PlayerActionsForm = ({ studentNumber }) => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
+  const [newPlayerData, setNewPlayerData] = useState({
+    newEventID: "",
+    newStudentNumber: "",
+    newHouseName: "",
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setNewPlayerData({ ...newPlayerData, [id]: value });
+  };
+
+  const handleEdit = async (studentNumber) => {
+    try {
+      const response = await fetch("/editPlayer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ studentNumber, newPlayerData })
+      });
+  
+      if (!response.ok) {
+        const errorResponse = await response.text();
+        throw new Error(errorResponse); // Parse error message from response
+      }
+    } catch (error) {
+      console.error("Error during delete request:", error); // Log detailed error
+      setErrorMessage(error.message);
+    }
+  }
+
   const handleDelete = async (studentNumber) => {
     console.log(studentNumber)
     try {
@@ -84,17 +115,25 @@ const PlayerActionsForm = ({ studentNumber }) => {
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
+              <Label htmlFor="newEventID" className="text-right">
                 Event ID
               </Label>
-              <Input id="name" placeholder="1" className="col-span-3" />
+              <Input id="newEventID" placeholder="1" className="col-span-3" onChange={handleChange} />
+              <Label htmlFor="newStudentNumber" className="text-right">
+                Student Number
+              </Label>
+              <Input id="newStudentNumber" placeholder="2022153255" className="col-span-3" onChange={handleChange} />
+              <Label htmlFor="newHouseName" className="text-right">
+                Hosue Name
+              </Label>
+              <Input id="newHouseName" placeholder="Cybernetics" className="col-span-3" onChange={handleChange} />
             </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button>Update</Button>
+            <Button onClick={() => handleEdit(studentNumber)}>Update</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
