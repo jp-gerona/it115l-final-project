@@ -60,6 +60,7 @@ const PopulationChart = () => {
         const formattedData = data.map((item) => ({
           houseName: item.houseName.toLowerCase(),
           members: item.members,
+          fill: `var(--color-${item.houseName.toLowerCase()})`
         }));
         setChartData(formattedData);
         console.log(formattedData); 
