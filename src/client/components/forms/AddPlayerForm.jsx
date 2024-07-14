@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/client/components/ui/button";
 import {
@@ -9,11 +9,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/client/components/ui/dialog";
 import { Input } from "@/client/components/ui/input";
 import { Label } from "@/client/components/ui/label";
 import { PlusCircle } from "lucide-react";
-import { useState } from "react";
 
 // todo: not sure if all fields should be required to fill out
 const fields = [
@@ -35,7 +35,11 @@ const fields = [
 ];
 
 const AddPlayerForm = () => {
-  const [playerData, setPlayerData] = useState({ EVENTID: "", STUDENTNUMBER: "", HOUSENAME: "" });
+  const [playerData, setPlayerData] = useState({
+    EVENTID: "",
+    STUDENTNUMBER: "",
+    HOUSENAME: "",
+  });
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -43,17 +47,17 @@ const AddPlayerForm = () => {
   };
 
   const addPlayer = async () => {
-    console.log(playerData)
+    console.log(playerData);
 
     try {
       const response = await fetch("/addPlayer", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(playerData)
+        body: JSON.stringify(playerData),
       });
-  
+
       if (!response.ok) {
         const errorResponse = await response.text();
         throw new Error(errorResponse); // Parse error message from response
@@ -88,7 +92,7 @@ const AddPlayerForm = () => {
               </Label>
               <Input
                 id={field.id}
-                placeHolder={field.placeHolder}
+                placeholder={field.placeHolder}
                 className="col-span-3"
                 onChange={handleChange}
               />
@@ -96,7 +100,12 @@ const AddPlayerForm = () => {
           ))}
         </div>
         <DialogFooter>
-          <Button onClick = {addPlayer} type="submit">Add Player</Button>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <Button onClick={addPlayer} type="submit">
+            Add Player
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

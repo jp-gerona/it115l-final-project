@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
   try {
     connection = await openConnection();
     const result = await connection.execute(
-      `INSERT INTO C##ALCANTARA.EVENT_PLAYERS (EVENTID, STUDENTNUMBER, HOUSENAME) VALUES (:EVENTID, :STUDENTNUMBER, :HOUSENAME)`,
+      `INSERT INTO ${dbCredentials.user}.EVENT_PLAYERS (EVENTID, STUDENTNUMBER, HOUSENAME) VALUES (:EVENTID, :STUDENTNUMBER, :HOUSENAME)`,
       [EVENTID, STUDENTNUMBER, HOUSENAME],
       { autoCommit: true }
     );

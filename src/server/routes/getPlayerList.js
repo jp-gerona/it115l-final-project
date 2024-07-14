@@ -12,12 +12,12 @@ router.get("/", async (req, res) => {
   try {
     connection = await openConnection();
     const result = await connection.execute(
-      `SELECT EVENTNAME, STUDENTLASTNAME || ' ' || STUDENTFIRSTNAME AS PLAYERNAME, ep.HOUSENAME, STUDENTYEAR
-       FROM C##ALCANTARA.EVENT_PLAYERS ep
-       INNER JOIN C##ALCANTARA.EVENT_LIST el ON ep.EVENTID = el.EVENTID
-       INNER JOIN C##ALCANTARA.STUDENT_INFO s ON ep.STUDENTNUMBER = s.STUDENTNUMBER
+      `SELECT EVENTNAME, STUDENTFIRSTNAME || ' ' || STUDENTLASTNAME AS PLAYERNAME, ep.HOUSENAME, STUDENTYEAR
+       FROM ${dbCredentials.user}.EVENT_PLAYERS ep
+       INNER JOIN ${dbCredentials.user}.EVENT_LIST el ON ep.EVENTID = el.EVENTID
+       INNER JOIN ${dbCredentials.user}.STUDENT_INFO s ON ep.STUDENTNUMBER = s.STUDENTNUMBER
        WHERE ep.EVENTID = :eventID 
-       ORDER  BY ep.STUDENTNUMBER ASC`,
+       ORDER BY ep.STUDENTNUMBER ASC`,
       [eventID],
       {
         outFormat: OracleDB.OUT_FORMAT_OBJECT,

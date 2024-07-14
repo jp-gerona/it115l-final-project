@@ -82,12 +82,11 @@ const DashBoard = () => {
   const location = useLocation();
 
   useEffect(() => {
-
     const checkAuthentication = async () => {
       try {
         // Example: Make a GET request to a protected endpoint
         const response = await axios.get("/cookieAuth"); // Replace with your endpoint
-  
+
         // If user is authenticated, handle it here (optional)
         console.log("User authenticated:", response.data);
       } catch (error) {
@@ -103,13 +102,13 @@ const DashBoard = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('/logout');
-      await axios.post('/logout'); // Call the backend logout endpoint
+      const response = await axios.post("/logout");
+      await axios.post("/logout"); // Call the backend logout endpoint
       // Optionally clear local storage or perform additional cleanup
-      console.log('Logout successful:', response.data);
-      navigate('/'); // Redirect to login page after logout
+      console.log("Logout successful:", response.data);
+      navigate("/"); // Redirect to login page after logout
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
       // Handle error if necessary
     }
   };
@@ -273,7 +272,10 @@ const DashBoard = () => {
               </a>
               <DropdownMenuSeparator />
               {/* //todo: POST method for logging out.  */}
-              <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive font-semibold">
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className="text-destructive focus:text-destructive font-semibold"
+              >
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
