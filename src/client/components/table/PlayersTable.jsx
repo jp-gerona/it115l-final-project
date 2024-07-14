@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SelectEvent from "../SelectEvent";
 import AddPlayerForm from "../forms/AddPlayerForm";
-import PlayerActionsForm from "../forms/PlayerActionsForm";
+import ActionsForm from "../forms/PlayerActionsForm";
 
 import {
   getCoreRowModel,
@@ -82,8 +82,7 @@ const columns = [
     accessorKey: "STUDENTNUMBER",
     id: "ACTIONS",
     Header: "Actions",
-    cell: (props) => <PlayerActionsForm studentNumber={props.getValue()} />,
-    // <PlayerActionsForm />,
+    cell: (props) => <ActionsForm studentNumber={props.getValue()} />,
   },
 ];
 

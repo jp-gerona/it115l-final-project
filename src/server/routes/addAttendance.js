@@ -5,20 +5,18 @@ const router = express.Router();
 router.use(express.json());
 
 router.post("/", async (req, res) => {
-  const { studentNumber, newData } = req.body;
-  const { newEventID, newStudentNumber, newHouseName } = newData;
+  const { EVENTID, STUDENTNUMBER, HOUSENAME } = req.body;
   let connection;
 
   try {
     connection = await openConnection();
     const result = await connection.execute(
-      `UPDATE ${dbCredentials.user}.EVENT_PLAYERS
-       SET EVENTID = :newEventID, STUDENTNUMBER = :newStudentNumber, HOUSENAME = :newHouseName
-       WHERE STUDENTNUMBER = :studentNumber`,
-      [newEventID, newStudentNumber, newHouseName, studentNumber],
+      `INSERT INTO ${dbCredentials.user}.ATTENDANCE (EVENTID, STUDENTNUMBER, HOUSENAME) VALUES (:EVENTID, :STUDENTNUMBER, :HOUSENAME)`,
+      [EVENTID, STUDENTNUMBER, HOUSENAME],
       { autoCommit: true }
     );
-    console.log("Update result:", result);
+    console.log("Add result:", result);
+    res.json(result.rows);
   } catch (err) {
     console.error("Database error:", err);
     if (!res.headersSent) {

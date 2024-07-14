@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SelectEvent from "../SelectEvent";
-import AddPlayerForm from "../forms/AddPlayerForm";
-import PlayerActionsForm from "../forms/PlayerActionsForm";
+import ActionsForm from "../forms/AttendanceActionsForm";
 
 import {
   getCoreRowModel,
@@ -83,8 +82,7 @@ const columns = [
     accessorKey: "STUDENTNUMBER",
     id: "ACTIONS",
     Header: "Actions",
-    cell: (props) => <PlayerActionsForm studentNumber={props.getValue()} />,
-    // <PlayerActionsForm />,
+    cell: (props) => <ActionsForm studentNumber={props.getValue()} />,
   },
 ];
 
@@ -129,10 +127,10 @@ const AttendanceTable = () => {
   }, [selectedDay]); // Dependency array includes selectedDay to trigger effect on change
 
   useEffect(() => {
-    const GetPlayers = async () => {
+    const GetAttendance = async () => {
       try {
         const response = await fetch(
-          `/getPlayerList?eventID=${selectedEventID}`,
+          `/getAttendance?eventID=${selectedEventID}`,
           {
             method: "GET",
             headers: {
@@ -141,13 +139,13 @@ const AttendanceTable = () => {
           }
         );
 
-        const playerList = await response.json();
-        setData(playerList);
+        const attendanceList = await response.json();
+        setData(attendanceList);
       } catch (error) {
         console.error("Error:", error);
       }
     };
-    GetPlayers();
+    GetAttendance();
   }, [selectedEventID]);
 
   const [data, setData] = useState([]);
