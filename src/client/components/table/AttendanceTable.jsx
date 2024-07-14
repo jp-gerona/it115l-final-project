@@ -56,7 +56,25 @@ const tabs = [
   { label: "Day 5", ordinal: "fifth", value: "5", date: "June 29, 2024" },
 ];
 
-// todo: replace columns to player list table
+const houseColors = {
+  innovators: {
+    label: "Innovators",
+    color: "hsl(var(--chart-1))",
+  },
+  sentinels: {
+    label: "Sentinels",
+    color: "hsl(var(--chart-2))",
+  },
+  cybernetics: {
+    label: "Cybernetics",
+    color: "hsl(var(--chart-3))",
+  },
+  chronos: {
+    label: "Chronos",
+    color: "hsl(var(--chart-4))",
+  },
+};
+
 const columns = [
   {
     accessorKey: "EVENTNAME",
@@ -71,7 +89,18 @@ const columns = [
   {
     accessorKey: "HOUSENAME",
     Header: "House",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: (props) => {
+      const houseName = props.getValue().toLowerCase();
+      const houseInfo = houseColors[houseName] || {
+        label: houseName,
+        color: "hsl(var(--default-color))",
+      }; // Fallback color
+      return (
+        <Badge variant="secondary" style={{ backgroundColor: houseInfo.color }}>
+          <p>{houseInfo.label}</p>
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "STUDENTYEAR",

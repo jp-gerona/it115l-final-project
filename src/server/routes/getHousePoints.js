@@ -21,7 +21,6 @@ router.get("/", async (req, res) => {
     );
     // Ensure the response is in JSON format
     res.json(result.rows); // This should automatically set Content-Type to application/json
-    console.log(result.rows);
   } catch (err) {
     console.error("Database error:", err);
     if (!res.headersSent) {

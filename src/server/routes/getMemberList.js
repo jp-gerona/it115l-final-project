@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     connection = await openConnection();
 
     const result = await connection.execute(
-      `SELECT STUDENTNUMBER, STUDENTFIRSTNAME || ' ' || STUDENTLASTNAME AS STUDENTNAME, STUDENTYEAR, STUDENTPROGRAM FROM ${dbCredentials.user}.STUDENT_INFO ORDER BY STUDENTNUMBER ASC`,
+      `SELECT STUDENTNUMBER, STUDENTFIRSTNAME || ' ' || STUDENTLASTNAME AS STUDENTNAME, HOUSENAME, STUDENTYEAR, STUDENTPROGRAM FROM ${dbCredentials.user}.STUDENT_INFO ORDER BY STUDENTNUMBER ASC`,
       [],
       {
         outFormat: OracleDB.OUT_FORMAT_OBJECT,
