@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
   try {
     connection = await openConnection();
     const result = await connection.execute(
-      `UPDATE ${dbCredentials.user}.EVENT_PLAYERS
+      `UPDATE ${dbCredentials.user}.Attendance
        SET EVENTID = :newEventID, STUDENTNUMBER = :newStudentNumber, HOUSENAME = :newHouseName
        WHERE STUDENTNUMBER = :studentNumber`,
       [newEventID, newStudentNumber, newHouseName, studentNumber],

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SelectEvent from "../SelectEvent";
-import AddPlayerForm from "../forms/AddPlayerForm";
-import PlayerActionsForm from "../forms/PlayerActionsForm";
+import ActionsForm from "../forms/AttendanceActionsForm";
 
 import {
   getCoreRowModel,
@@ -83,8 +82,7 @@ const columns = [
     accessorKey: "STUDENTNUMBER",
     id: "ACTIONS",
     Header: "Actions",
-    cell: (props) => <PlayerActionsForm studentNumber={props.getValue()} />,
-    // <PlayerActionsForm />,
+    cell: (props) => <ActionsForm studentNumber={props.getValue()} />,
   },
 ];
 
@@ -96,14 +94,6 @@ const AttendanceTable = () => {
   const selectedTab = tabs.find((tab) => tab.value === selectedDay);
   const selectedDate = selectedTab ? selectedTab.date : "N/A";
   const selectedOrdinal = selectedTab ? selectedTab.ordinal : "N/A";
-
-  const handleEventSelectID = (event) => {
-    setSelectedEventID(event);
-  };
-
-  const handleEventSelectName = (event) => {
-    setSelectedEventName(event);
-  };
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -129,10 +119,10 @@ const AttendanceTable = () => {
   }, [selectedDay]); // Dependency array includes selectedDay to trigger effect on change
 
   useEffect(() => {
-    const GetPlayers = async () => {
+    const GetAttendance = async () => {
       try {
         const response = await fetch(
-          `/getPlayerList?eventID=${selectedEventID}`,
+          `/getAttendance?eventID=${selectedEventID}`,
           {
             method: "GET",
             headers: {
@@ -141,13 +131,13 @@ const AttendanceTable = () => {
           }
         );
 
-        const playerList = await response.json();
-        setData(playerList);
+        const attendanceList = await response.json();
+        setData(attendanceList);
       } catch (error) {
         console.error("Error:", error);
       }
     };
-    GetPlayers();
+    GetAttendance();
   }, [selectedEventID]);
 
   const [data, setData] = useState([]);
@@ -180,7 +170,11 @@ const AttendanceTable = () => {
             <TabsTrigger
               key={tab.value}
               value={tab.value}
-              onClick={() => setSelectedDay(tab.value)}
+              onClick={() => {
+                setSelectedDay(tab.value);
+                setSelectedEventID("");
+                setSelectedEventName("Event");
+              }}
             >
               {tab.label}
             </TabsTrigger>
@@ -201,14 +195,13 @@ const AttendanceTable = () => {
                 <DropdownMenuItem
                   key={event.EVENTID}
                   onClick={() => {
-                    handleEventSelectID(event.EVENTID);
-                    handleEventSelectName(event.EVENTNAME);
+                    setSelectedEventID(event.EVENTID);
+                    setSelectedEventName(event.EVENTNAME);
                   }}
                 >
                   {event.EVENTNAME}
                 </DropdownMenuItem>
               ))}
-              {/* <DropdownMenuCheckboxItem onClick={() => handleEventSelect('2')}>Event1</DropdownMenuCheckboxItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
           <AddAttendanceForm />

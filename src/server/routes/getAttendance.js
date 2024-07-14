@@ -7,18 +7,22 @@ router.use(express.json());
 
 router.get("/", async (req, res) => {
   let connection;
+  const eventID = req.query.eventID;
 
   try {
     connection = await openConnection();
-
-    const sqlQuery = `
-      SELECT EVENTID, HOUSENAME, STUDENTNUMBER
-      FROM ${dbCredentials.user}.ATTENDANCE 
-      ORDER BY EVENTID ASC`;
-
-      const result = await connection.execute(sqlQuery, [], {
+    const result = await connection.execute(
+      `SELECT a.STUDENTNUMBER, EVENTNAME, STUDENTFIRSTNAME || ' ' || STUDENTLASTNAME AS PLAYERNAME, a.HOUSENAME, STUDENTYEAR
+       FROM ${dbCredentials.user}.Attendance a
+       INNER JOIN ${dbCredentials.user}.EVENT_LIST el ON a.EVENTID = el.EVENTID
+       INNER JOIN ${dbCredentials.user}.STUDENT_INFO s ON a.STUDENTNUMBER = s.STUDENTNUMBER
+       WHERE a.EVENTID = :eventID 
+       ORDER BY a.STUDENTNUMBER ASC`,
+      [eventID],
+      {
         outFormat: OracleDB.OUT_FORMAT_OBJECT,
-    });
+      }
+    );
 
     res.json(result.rows);
   } catch (err) {

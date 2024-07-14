@@ -25,7 +25,7 @@ import { Label } from "@/client/components/ui/label";
 
 import { MoreHorizontal } from "lucide-react";
 
-const PlayerActionsForm = ({ studentNumber }) => {
+const AttendanceActionsForm = ({ studentNumber }) => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -42,7 +42,7 @@ const PlayerActionsForm = ({ studentNumber }) => {
 
   const handleEdit = async (studentNumber) => {
     try {
-      const response = await fetch("/editPlayer", {
+      const response = await fetch("/editAttendance", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -63,7 +63,7 @@ const PlayerActionsForm = ({ studentNumber }) => {
   const handleDelete = async (studentNumber) => {
     console.log(studentNumber)
     try {
-      const response = await fetch("/deletePlayer", {
+      const response = await fetch("/deleteAttendance", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"
@@ -159,4 +159,4 @@ const PlayerActionsForm = ({ studentNumber }) => {
     </>
   );
 };
-export default PlayerActionsForm;
+export default AttendanceActionsForm;

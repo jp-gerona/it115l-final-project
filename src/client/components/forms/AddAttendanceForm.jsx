@@ -57,7 +57,7 @@ const AddAttendanceForm = () => {
     setPlayerData({ ...playerData, [id]: value });
   };
 
-  const addPlayer = async () => {
+  const addAttendance = async () => {
     const formErrors = validate(playerData);
     setErrors(formErrors);
 
@@ -65,7 +65,7 @@ const AddAttendanceForm = () => {
     console.log(playerData);
 
     try {
-      const response = await fetch("/addPlayer", {
+      const response = await fetch("/addAttendance", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -124,7 +124,7 @@ const AddAttendanceForm = () => {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button onClick={addPlayer} type="submit">
+          <Button onClick={addAttendance} type="submit">
             Add Player
           </Button>
         </DialogFooter>

@@ -4,21 +4,18 @@ import { dbCredentials, openConnection, closeConnection } from "../db.js";
 const router = express.Router();
 router.use(express.json());
 
-router.post("/", async (req, res) => {
-  const { studentNumber, newData } = req.body;
-  const { newEventID, newStudentNumber, newHouseName } = newData;
+router.delete("/", async (req, res) => {
+  const { studentNumber } = req.body;
   let connection;
 
   try {
     connection = await openConnection();
     const result = await connection.execute(
-      `UPDATE ${dbCredentials.user}.EVENT_PLAYERS
-       SET EVENTID = :newEventID, STUDENTNUMBER = :newStudentNumber, HOUSENAME = :newHouseName
-       WHERE STUDENTNUMBER = :studentNumber`,
-      [newEventID, newStudentNumber, newHouseName, studentNumber],
+      `DELETE FROM ${dbCredentials.user}.ATTENDANCE WHERE STUDENTNUMBER = :studentNumber`,
+      [studentNumber],
       { autoCommit: true }
     );
-    console.log("Update result:", result);
+    console.log("Delete result:", result);
   } catch (err) {
     console.error("Database error:", err);
     if (!res.headersSent) {
