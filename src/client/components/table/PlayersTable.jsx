@@ -90,16 +90,20 @@ const columns = [
 const PlayersTable = () => {
   const [selectedDay, setSelectedDay] = useState("1"); // Defaults to the first tab, which is Day 1
   const [eventsData, setEventsData] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState("");
+  const [selectedEventID, setSelectedEventID] = useState("");
+  const [selectedEventName, setSelectedEventName] = useState("Event");
   const selectedTab = tabs.find((tab) => tab.value === selectedDay);
   const selectedDate = selectedTab ? selectedTab.date : "N/A";
   const selectedOrdinal = selectedTab ? selectedTab.ordinal : "N/A";
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
-  const handleEventSelect = (event) => {
-    setSelectedEvent(event);
-    // You can perform additional actions based on the selected event here
+  const handleEventSelectID = (event) => {
+    setSelectedEventID(event);
+  };
+
+  const handleEventSelectName = (event) => {
+    setSelectedEventName(event);
   };
 
   // todo: fetch player list data instead
@@ -131,7 +135,7 @@ const PlayersTable = () => {
     const GetPlayers = async () => {
       try {
         const response = await fetch(
-          `/getPlayerList?eventID=${selectedEvent}`,
+          `/getPlayerList?eventID=${selectedEventID}`,
           {
             method: "GET",
             headers: {
@@ -147,7 +151,7 @@ const PlayersTable = () => {
       }
     };
     GetPlayers();
-  }, [selectedEvent]);
+  }, [selectedEventID]);
 
   const [data, setData] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -199,7 +203,7 @@ const PlayersTable = () => {
               {eventsData.map((event) => (
                 <DropdownMenuItem
                   key={event.EVENTID}
-                  onClick={() => handleEventSelect(event.EVENTID)}
+                  onClick={() => {handleEventSelectID(event.EVENTID); handleEventSelectName(event.EVENTNAME)}}
                 >
                   {event.EVENTNAME}
                 </DropdownMenuItem>
@@ -213,9 +217,9 @@ const PlayersTable = () => {
       <TabsContent value={selectedDay}>
         <Card>
           <CardHeader>
-            <CardTitle>{`EventNamePlaceholder: Players List`}</CardTitle>
+            <CardTitle>{`${selectedEventName}: Players List`}</CardTitle>
             <CardDescription>
-              {`The official players of the EventNamePlaceholder on the ${selectedOrdinal} day. (${selectedDate})`}
+              {`The official players of the ${selectedEventName} on the ${selectedOrdinal} day. (${selectedDate})`}
             </CardDescription>
             <div className="flex items-center py-4">
               <div className="relative">
