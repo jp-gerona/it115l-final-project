@@ -47,6 +47,7 @@ import {
 } from "@/client/components/ui/tabs";
 
 import { ChevronDown, Search, ListFilter } from "lucide-react";
+import AddAttendanceForm from "../forms/AddAttendanceForm";
 
 const tabs = [
   { label: "Day 1", ordinal: "first", value: "1", date: "June 25, 2024" },
@@ -87,7 +88,7 @@ const columns = [
   },
 ];
 
-const PlayersTable = () => {
+const AttendanceTable = () => {
   const [selectedDay, setSelectedDay] = useState("1"); // Defaults to the first tab, which is Day 1
   const [eventsData, setEventsData] = useState([]);
   const [selectedEventID, setSelectedEventID] = useState("");
@@ -210,21 +211,21 @@ const PlayersTable = () => {
               {/* <DropdownMenuCheckboxItem onClick={() => handleEventSelect('2')}>Event1</DropdownMenuCheckboxItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
-          <AddPlayerForm />
+          <AddAttendanceForm />
         </div>
       </div>
       <TabsContent value={selectedDay}>
         <Card>
           <CardHeader>
-            <CardTitle>{`${selectedEventName}: Players List`}</CardTitle>
+            <CardTitle>{`${selectedEventName}: Attendance List`}</CardTitle>
             <CardDescription>
-              {`The official players of the ${selectedEventName} on the ${selectedOrdinal} day. (${selectedDate})`}
+              {`The official attendance checking of the ${selectedEventName} on the ${selectedOrdinal} day. (${selectedDate})`}
             </CardDescription>
             <div className="flex items-center py-4">
               <div className="relative">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search player by name..."
+                  placeholder="Search student by name..."
                   value={table.getColumn("PLAYERNAME")?.getFilterValue() ?? ""}
                   onChange={(event) =>
                     table
@@ -318,7 +319,7 @@ const PlayersTable = () => {
             <div className="flex items-center space-x-2 py-4 sm:justify-end">
               <div className="flex-1 text-sm text-muted-foreground hidden sm:block">
                 Showing <strong>{startRow}</strong> to <strong>{endRow}</strong>{" "}
-                of <strong>{totalRows}</strong> player(s).
+                of <strong>{totalRows}</strong> student(s).
               </div>
               <div className="flex space-x-2">
                 <Button
@@ -346,4 +347,4 @@ const PlayersTable = () => {
   );
 };
 
-export default PlayersTable;
+export default AttendanceTable;
