@@ -47,6 +47,8 @@ import {
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { useEffect } from "react";
 import axios from "axios";
+import PopulationChart from "./charts/PopulationChart";
+import PointsChart from "./charts/PointsChart";
 
 const navItems = [
   { icon: House, label: "Home", ariaLabel: "Home", path: "/dashboard" },
@@ -286,6 +288,12 @@ const DashBoard = () => {
         </header>
         <main className="gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 sm:pt-4">
           <Outlet />
+          {location.pathname === "/dashboard" && (
+            <div className="grid flex-1 scroll-mt-20 items-start gap-10 md:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:gap-10">
+              <PopulationChart />
+              <PointsChart />
+            </div>
+          )}
         </main>
       </div>
     </div>
