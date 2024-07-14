@@ -79,9 +79,11 @@ const columns = [
     cell: (props) => <p>{props.getValue()}</p>,
   },
   {
+    accessorKey: "STUDENTNUMBER",
     id: "ACTIONS",
     Header: "Actions",
-    cell: <PlayerActionsForm />,
+    cell: (props) => <PlayerActionsForm studentNumber={props.getValue()} />,
+    // <PlayerActionsForm />,  
   },
 ];
 

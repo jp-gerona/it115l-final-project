@@ -1,26 +1,29 @@
 import express from "express";
+import OracleDB from "oracledb";
 import { dbCredentials, openConnection, closeConnection } from "../db.js";
 
 const router = express.Router();
 router.use(express.json());
 
-router.post("/", async (req, res) => {
-  const { EVENTID, STUDENTNUMBER, HOUSENAME } = req.body;
+router.get("/", async (req, res) => {
   let connection;
 
   try {
     connection = await openConnection();
-    const result = await connection.execute(
-      `INSERT INTO ${dbCredentials.user}.EVENT_PLAYERS (EVENTID, STUDENTNUMBER, HOUSENAME) VALUES (:EVENTID, :STUDENTNUMBER, :HOUSENAME)`,
-      [EVENTID, STUDENTNUMBER, HOUSENAME],
-      { autoCommit: true }
-    );
-    console.log(result);
+
+    const sqlQuery = `
+      SELECT EVENTID, HOUSENAME, STUDENTNUMBER
+      FROM ${dbCredentials.user}.ATTENDANCE 
+      ORDER BY EVENTID ASC`;
+
+      const result = await connection.execute(sqlQuery, [], {
+        outFormat: OracleDB.OUT_FORMAT_OBJECT,
+    });
+
     res.json(result.rows);
   } catch (err) {
     console.error("Database error:", err);
     if (!res.headersSent) {
-      // Check if the headers are already sent
       res.status(500).json({ success: false, message: "Server error" });
     }
   } finally {
