@@ -1,7 +1,6 @@
 import express from "express";
 import { dbCredentials, openConnection, closeConnection } from "../db.js";
 import jwt from "jsonwebtoken";
-import cookie from "cookie";
 
 const router = express.Router();
 router.use(express.json());

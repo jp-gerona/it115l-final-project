@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import SelectEvent from "../SelectEvent";
 import AddPlayerForm from "../forms/AddPlayerForm";
 import ActionsForm from "../forms/PlayerActionsForm";
 
@@ -35,8 +34,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/client/components/ui/dropdown-menu";
 import {
@@ -75,7 +72,6 @@ const houseColors = {
   },
 };
 
-// todo: replace columns to player list table
 const columns = [
   {
     accessorKey: "EVENTNAME",
@@ -232,7 +228,6 @@ const PlayersTable = () => {
                   {event.EVENTNAME}
                 </DropdownMenuItem>
               ))}
-              {/* <DropdownMenuCheckboxItem onClick={() => handleEventSelect('2')}>Event1</DropdownMenuCheckboxItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
           <AddPlayerForm />
@@ -287,7 +282,7 @@ const PlayersTable = () => {
               </DropdownMenu>
             </div>
           </CardHeader>
-          <CardContent className="h-[35vh] sm:h-[55vh] max-h-full w-full overflow-auto">
+          <CardContent className="h-[35vh] sm:h-[43.3vh] max-h-full w-full overflow-auto">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
