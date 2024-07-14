@@ -34,7 +34,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/client/components/ui/avatar";
-import { AspectRatio } from "@/client/components/ui/aspect-ratio";
 
 import {
   House,
