@@ -6,7 +6,6 @@ import {
   useReactTable,
   flexRender,
 } from "@tanstack/react-table";
-import testData from "../../../server/testData";
 
 import { Badge } from "@/client/components/ui/badge";
 import { Input } from "@/client/components/ui/input";
@@ -31,13 +30,29 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/client/components/ui/dropdown-menu";
 
 import { ChevronDown, Search } from "lucide-react";
+
+const houseColors = {
+  innovators: {
+    label: "Innovators",
+    color: "hsl(var(--chart-1))",
+  },
+  sentinels: {
+    label: "Sentinels",
+    color: "hsl(var(--chart-2))",
+  },
+  cybernetics: {
+    label: "Cybernetics",
+    color: "hsl(var(--chart-3))",
+  },
+  chronos: {
+    label: "Chronos",
+    color: "hsl(var(--chart-4))",
+  },
+};
 
 const columns = [
   {
@@ -49,6 +64,22 @@ const columns = [
     accessorKey: "STUDENTNAME",
     Header: "Full Name",
     cell: (props) => <p>{props.getValue()}</p>,
+  },
+  {
+    accessorKey: "HOUSENAME",
+    Header: "House",
+    cell: (props) => {
+      const houseName = props.getValue().toLowerCase();
+      const houseInfo = houseColors[houseName] || {
+        label: houseName,
+        color: "hsl(var(--default-color))",
+      }; // Fallback color
+      return (
+        <Badge variant="secondary" style={{ backgroundColor: houseInfo.color }}>
+          <p>{houseInfo.label}</p>
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "STUDENTYEAR",

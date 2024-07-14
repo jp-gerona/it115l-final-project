@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import SelectEvent from "../SelectEvent";
 import AddPlayerForm from "../forms/AddPlayerForm";
 import ActionsForm from "../forms/PlayerActionsForm";
 
@@ -35,8 +34,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/client/components/ui/dropdown-menu";
 import {
@@ -56,7 +53,25 @@ const tabs = [
   { label: "Day 5", ordinal: "fifth", value: "5", date: "June 29, 2024" },
 ];
 
-// todo: replace columns to player list table
+const houseColors = {
+  innovators: {
+    label: "Innovators",
+    color: "hsl(var(--chart-1))",
+  },
+  sentinels: {
+    label: "Sentinels",
+    color: "hsl(var(--chart-2))",
+  },
+  cybernetics: {
+    label: "Cybernetics",
+    color: "hsl(var(--chart-3))",
+  },
+  chronos: {
+    label: "Chronos",
+    color: "hsl(var(--chart-4))",
+  },
+};
+
 const columns = [
   {
     accessorKey: "EVENTNAME",
@@ -71,7 +86,18 @@ const columns = [
   {
     accessorKey: "HOUSENAME",
     Header: "House",
-    cell: (props) => <p>{props.getValue()}</p>,
+    cell: (props) => {
+      const houseName = props.getValue().toLowerCase();
+      const houseInfo = houseColors[houseName] || {
+        label: houseName,
+        color: "hsl(var(--default-color))",
+      }; // Fallback color
+      return (
+        <Badge variant="secondary" style={{ backgroundColor: houseInfo.color }}>
+          <p>{houseInfo.label}</p>
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "STUDENTYEAR",
@@ -202,7 +228,6 @@ const PlayersTable = () => {
                   {event.EVENTNAME}
                 </DropdownMenuItem>
               ))}
-              {/* <DropdownMenuCheckboxItem onClick={() => handleEventSelect('2')}>Event1</DropdownMenuCheckboxItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
           <AddPlayerForm />
@@ -257,7 +282,7 @@ const PlayersTable = () => {
               </DropdownMenu>
             </div>
           </CardHeader>
-          <CardContent className="h-[35vh] sm:h-[55vh] max-h-full w-full overflow-auto">
+          <CardContent className="h-[35vh] sm:h-[43.3vh] max-h-full w-full overflow-auto">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
